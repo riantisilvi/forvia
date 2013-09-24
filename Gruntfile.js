@@ -25,8 +25,36 @@ module.exports = function (grunt) {
 	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
 	// Initialize Grunt config object.
-	grunt.intiConfig({
-		// 
+	grunt.initConfig({
+
+		// Configurable paths and other variables. 
+		config: {
+			tstamp: '<%= grunt.template.today("ddmmyyyyhhMMss") %>',
+			src: 'src',
+			app: 'app',
+			css: [
+				'<%= config.src %>/scss/style.scss'
+			],
+			js: [
+				'<%= config.src %>/js/*.js'
+			]
+		},
+
+		/**
+		 * Project banner
+		 * Dynamically appended to CSS/JS files
+		 * Inherits text from package.json
+		 */
+		tag: {
+			banner: '/*!\n' +
+				' * <%= pkg.name %>\n' +
+				' * <%= pkg.url %>\n' +
+				' * @author <%= pkg.author %>\n' +
+				' * @version <%= pkg.version %>\n' +
+				' * Copyright <%= pkg.copyright %>. <%= pkg.license %> licensed.\n' +
+				' */\n'
+		}
+
 	});
 
 	// Default (Dev) grunt task, call by typing "grunt" on command line.
