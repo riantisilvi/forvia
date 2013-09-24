@@ -1,0 +1,21 @@
+{
+  "name": "forvia",
+  "version": "0.0.0",
+  "authors": [
+    "Rezki Bangsawan <rbangsawan@gmail.com>"
+  ],
+  "description": "forvia",
+  "main": "Gruntfile.js",
+  "keywords": [
+    "Via"
+  ],
+  "license": "None",
+  "homepage": "https://github.com/rbangsawan/forvia",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

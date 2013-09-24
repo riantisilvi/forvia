@@ -1,0 +1,21 @@
+{
+  "name": "forvia",
+  "version": "0.0.0",
+  "description": "Via",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rbangsawan/forvia.git"
+  },
+  "keywords": [
+    "Via"
+  ],
+  "author": "Rezki Bangsawan",
+  "license": "None",
+  "bugs": {
+    "url": "https://github.com/rbangsawan/forvia/issues"
+  }
+}
