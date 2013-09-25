@@ -58,6 +58,28 @@ module.exports = function (grunt) {
 				' */\n'
 		},
 
+
+		/**
+		 * Connect port/livereload.
+		 * Start local server and inject livereload snippet.
+		 * @type	{Object}
+		 * @url		"https://github.com/gruntjs/grunt-contrib-connect"
+		 */
+		connect: {
+			options: {
+				port: 9000,
+				hostname: '*'
+			},
+			livereload: {
+				options: {
+					middleware: function (connect) {
+						return [lrSnippet, mountFolder(connect, 'app')];
+					}
+				}
+			}
+		},
+
+
 		/**
 		 * Compile Sass/Scss
 		 * @type	{Object}
@@ -86,15 +108,53 @@ module.exports = function (grunt) {
 					'<%= config.app %>/css/main.min.css': '<%= config.css %>'
 				}
 			}
+		},
+
+
+		/**
+		 * Opens the web server in the browser
+		 * @type {Object}
+		 * @url		"https://github.com/jsoverson/grunt-open"
+		 */
+		open: {
+			server: {
+				path: 'http://localhost:<%= connect.options.port %>'
+			}
+		},
+
+		/**
+		 * Runs tasks against changed watched files.
+		 * Watching development files and run concat/compile tasks.
+		 * Livereload the browser once complete.
+		 * @type {Object}
+		 * @url		"https://github.com/gruntjs/grunt-contrib-watch"
+		 */
+		watch: {
+			sass: {
+				files: '<%= config.src %>/scss/{,*/}*.{scss,sass}',
+				tasks: ['sass:dev']
+			},
+			livereload: {
+				options: {
+					livereload: LIVERELOAD_PORT
+				},
+				files: [
+					'<%= config.app %>/index.html',
+					'<%= config.app %>/css/*.css',
+					'<%= config.app %>/js/{,*/}*.js',
+					'<%= config.app %>/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+				]
+			}
 		}
+
 	});
 
 	// Default (Dev) grunt task, call by typing "grunt" on command line.
 	grunt.registerTask('default', [
-		'sass:dev'
-		// 'connect:livereload',
-		// 'open',
-		// 'watch'
+		'sass:dev',
+		'connect:livereload',
+		'open',
+		'watch'
 	]);
 
 	// Production grunt task, call by typing "grunt dist" on command line.
