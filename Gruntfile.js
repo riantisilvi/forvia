@@ -17,7 +17,7 @@ var mountFolder = function (connect, dir) {
 
 module.exports = function (grunt) {
 
-	'user strict';
+	'use strict';
 
 	/**
 	* Dynamically load npm tasks.
@@ -36,7 +36,7 @@ module.exports = function (grunt) {
 			src: 'src',
 			app: 'app',
 			css: [
-				'<%= config.src %>/scss/style.scss'
+				'<%= config.src %>/scss/main.scss'
 			],
 			js: [
 				'<%= config.src %>/js/*.js'
@@ -67,31 +67,35 @@ module.exports = function (grunt) {
 		sass: {
 			dev: {
 				options: {
-					styles: 'expanded',
-					banner: '<%= tag.banner %>',
+					style: 'expanded',
 					compass: true,
-					debugInfo: true
+					debugInfo: true,
+					banner: '<%= tag.banner %>'
 				},
 				files: {
-					'<% config.app %>/css/main.min.css': '<% config.css %>'
+					'<%= config.app %>/css/main.min.css': '<%= config.css %>'
 				}
 			},
 			dist: {
 				options: {
-					styles: 'compressed',
-					banner: '<%= tag.banner %>',
-					compass: true
+					style: 'compressed',
+					compass: true,
+					banner: '<%= tag.banner %>'
 				},
 				files: {
-					'<% config.app %>/css/main.min.css': '<% config.css %>'
+					'<%= config.app %>/css/main.min.css': '<%= config.css %>'
 				}
 			}
 		}
-
 	});
 
 	// Default (Dev) grunt task, call by typing "grunt" on command line.
-	grunt.registerTask('default', []);
+	grunt.registerTask('default', [
+		'sass:dev'
+		// 'connect:livereload',
+		// 'open',
+		// 'watch'
+	]);
 
 	// Production grunt task, call by typing "grunt dist" on command line.
 	grunt.registerTask('dist', []);
