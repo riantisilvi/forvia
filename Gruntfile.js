@@ -5,7 +5,8 @@
  */
 
 /**
- * Livereload and connect variables.
+ * [LIVERELOAD_PORT description]
+ * @type {Number}
  */
 var LIVERELOAD_PORT = 35729;
 var lrSnippet = require('connect-livereload')({
@@ -20,8 +21,8 @@ module.exports = function (grunt) {
 	'use strict';
 
 	/**
-	* Dynamically load npm tasks.
-	*/
+	 * Dynamically load npm tasks.
+	 */
 	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
 	// Initialize Grunt config object.
@@ -112,6 +113,25 @@ module.exports = function (grunt) {
 
 
 		/**
+		 * List CSS.
+		 * @type {Object}
+		 * @url	"https://github.com/gruntjs/grunt-contrib-csslint"
+		 */
+		csslint: {
+			options: {
+				csslintrc: '.csslintrc'
+			},
+			strict: {
+				options: {},
+				src: ['<% config.app %>/css/*.css']
+			},
+			lax: {
+				options: {}
+			}
+		},
+
+
+		/**
 		 * Opens the web server in the browser
 		 * @type {Object}
 		 * @url		"https://github.com/jsoverson/grunt-open"
@@ -121,6 +141,7 @@ module.exports = function (grunt) {
 				path: 'http://localhost:<%= connect.options.port %>'
 			}
 		},
+
 
 		/**
 		 * Runs tasks against changed watched files.
@@ -152,6 +173,7 @@ module.exports = function (grunt) {
 	// Default (Dev) grunt task, call by typing "grunt" on command line.
 	grunt.registerTask('default', [
 		'sass:dev',
+		'csslint',
 		'connect:livereload',
 		'open',
 		'watch'
