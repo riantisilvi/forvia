@@ -60,6 +60,12 @@ module.exports = function (grunt) {
 		},
 
 
+		/** ----------------------------------------------------------------- *\
+		 *  LiveReload related task.
+		 *    1. connect.
+		 ** ----------------------------------------------------------------- */
+
+
 		/**
 		 * Connect port/livereload.
 		 * Start local server and inject livereload snippet.
@@ -79,6 +85,70 @@ module.exports = function (grunt) {
 				}
 			}
 		},
+
+
+		/** ----------------------------------------------------------------- *\
+		 *  JS related task.
+		 *    1. jshint.
+		 *    2. concat.
+		 *    3. uglify.
+		 ** ----------------------------------------------------------------- */
+
+
+		/**
+		 * JSHint.
+		 * Manage the options inside .jshintrc file.
+		 * @url		"https://github.com/gruntjs/grunt-contrib-jshint"
+		 */
+		jshint: {
+			files: ['src/js/*.js'],
+			options: {
+				jshintrc: '.jshintrc'
+			}
+		},
+
+
+		/**
+		 * Concatenate JavaScript files.
+		 * Imports all .js files and appends project banner.
+		 * @url		"https://github.com/gruntjs/grunt-contrib-concat"
+		 */
+		concat: {
+			options: {
+				stripBanners: true,
+				nonull: true,
+				banner: '<%= tag.banner %>'
+			},
+			dev: {
+				files: {
+					'<%= config.app %>/js/main.min.js': '<%= config.js %>'
+				}
+			}
+		},
+
+
+		/**
+		 * Uglify (minify) JavaScript files
+		 * Compresses and minifies all JavaScript files into one
+		 * @url		"https://github.com/gruntjs/grunt-contrib-uglify"
+		 */
+		uglify: {
+			options: {
+				banner: "<%= tag.banner %>"
+			},
+			dist: {
+				files: {
+					'<%= config.app %>/js/main.min.js': '<%= config.js %>'
+				}
+			}
+		},
+
+
+		/** ----------------------------------------------------------------- *\
+		 *  CSS related task.
+		 *    1. sass.
+		 *    2. csslint.
+		 ** ----------------------------------------------------------------- */
 
 
 		/**
@@ -131,6 +201,13 @@ module.exports = function (grunt) {
 		},
 
 
+		/** ----------------------------------------------------------------- *\
+		 *  Local Server related task.
+		 *    1. open.
+		 *    2. watch.
+		 ** ----------------------------------------------------------------- */
+
+
 		/**
 		 * Opens the web server in the browser
 		 * @type {Object}
@@ -151,6 +228,10 @@ module.exports = function (grunt) {
 		 * @url		"https://github.com/gruntjs/grunt-contrib-watch"
 		 */
 		watch: {
+			concat: {
+				files: '<%= config.src %>/js/{,*/}*.js',
+				tasks: ['concat:dev', 'jshint']
+			},
 			sass: {
 				files: '<%= config.src %>/scss/{,*/}*.{scss,sass}',
 				tasks: ['sass:dev']
@@ -170,16 +251,24 @@ module.exports = function (grunt) {
 
 	});
 
-	// Default (Dev) grunt task, call by typing "grunt" on command line.
+	/** --------------------------------------------------------------------- *\
+	 *  Grunt Task.
+	 *  Default (Dev) grunt task, call by typing "grunt" on command line.
+	 ** --------------------------------------------------------------------- */
 	grunt.registerTask('default', [
 		'sass:dev',
+		'jshint',
+		'concat:dev',
 		'csslint',
 		'connect:livereload',
 		'open',
 		'watch'
 	]);
 
-	// Production grunt task, call by typing "grunt dist" on command line.
+	/** --------------------------------------------------------------------- *\
+	 *  Grunt Task.
+	 *  Production grunt task, call by typing "grunt dist" on command line.
+	 ** --------------------------------------------------------------------- */
 	grunt.registerTask('dist', []);
 
 };
