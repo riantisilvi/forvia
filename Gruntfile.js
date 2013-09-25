@@ -27,6 +27,9 @@ module.exports = function (grunt) {
 	// Initialize Grunt config object.
 	grunt.initConfig({
 
+		// Save NPM config file, so it can be read later from this Grunt.
+		pkg: grunt.file.readJSON('package.json'),
+
 		// Configurable paths and other variables. 
 		config: {
 			tstamp: '<%= grunt.template.today("ddmmyyyyhhMMss") %>',
@@ -53,6 +56,36 @@ module.exports = function (grunt) {
 				' * @version <%= pkg.version %>\n' +
 				' * Copyright <%= pkg.copyright %>. <%= pkg.license %> licensed.\n' +
 				' */\n'
+		},
+
+		/**
+		 * Compile Sass/Scss
+		 * @type	{Object}
+		 * @url		"https://github.com/gruntjs/grunt-contrib-sass"
+		 * @todo	"Better options maybe?"
+		 */
+		sass: {
+			dev: {
+				options: {
+					styles: 'expanded',
+					banner: '<%= tag.banner %>',
+					compass: true,
+					debugInfo: true
+				},
+				files: {
+					'<% config.app %>/css/main.min.css': '<% config.css %>'
+				}
+			},
+			dist: {
+				options: {
+					styles: 'compressed',
+					banner: '<%= tag.banner %>',
+					compass: true
+				},
+				files: {
+					'<% config.app %>/css/main.min.css': '<% config.css %>'
+				}
+			}
 		}
 
 	});
