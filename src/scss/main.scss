@@ -1,6 +1,29 @@
-/* Test grunt */
-*, *:before, *:after {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+@import "compass/css3";
+ 
+@include font-face(
+	"Dense Regular",
+	inline-font-files(
+		'dense-regular-webfont.woff', woff,
+		'dense-regular-webfont.ttf', ttf,
+		'dense-regular-webfont.svg', svg),
+		'dense-regular-webfont.eot',
+	normal, // font-weight
+	normal  // font-style
+);
+
+@include font-face(
+	"Roboto Black",
+	inline-font-files(
+		'Roboto-Black-webfont.woff', woff,
+		'Roboto-Black-webfont.ttf', ttf,
+		'Roboto-Black-webfont.svg', svg),
+		'Roboto-Black-webfont.eot',
+	normal, // font-weight
+	normal  // font-style
+);
+ 
+.example {
+  font-family: "Roboto Black";
+  text-transform: uppercase;
+  font-size: 4em;
 }

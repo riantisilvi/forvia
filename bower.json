@@ -17,5 +17,10 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "jquery": "~2.0.3",
+    "modernizr": "~2.6.2",
+    "responsejs": "~0.7.7"
+  }
 }
